@@ -5,11 +5,28 @@ import type { GamePiece, Rank, Side } from '../types';
 // ---------------------------------------------------------------------------
 
 const ASSET_MAP: Record<string, string> = {
+  // Israel
   'israel-10': '/assets/units/israel_marshal.png',
   'israel-9': '/assets/units/israel_general.png',
   'israel-8': '/assets/units/israel_colonel.png',
+  'israel-7': '/assets/units/israel_major.png',
+  'israel-6': '/assets/units/israel_captain.png',
+  'israel-5': '/assets/units/israel_lieutenant.png',
   'israel-4': '/assets/units/israel_soldier.png',
   'israel-3': '/assets/units/israel_miner.png',
+  'israel-2': '/assets/units/israel_scout.png',
+  'israel-S': '/assets/units/israel_spy.png',
+  // Iran
+  'iran-10': '/assets/units/iran_marshal.png',
+  'iran-9': '/assets/units/iran_general.png',
+  'iran-8': '/assets/units/iran_colonel.png',
+  'iran-7': '/assets/units/iran_major.png',
+  'iran-6': '/assets/units/iran_captain.png',
+  'iran-5': '/assets/units/iran_lieutenant.png',
+  'iran-4': '/assets/units/iran_sergeant.png',
+  'iran-3': '/assets/units/iran_miner.png',
+  'iran-2': '/assets/units/iran_scout.png',
+  'iran-S': '/assets/units/iran_spy.png',
 };
 
 function getAssetPath(side: Side, rank: Rank): string | null {

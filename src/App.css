@@ -1617,6 +1617,148 @@ body {
    RESPONSIVE - Smaller screens
    ============================================================================ */
 
+/* ============================================================================
+   TABLE DECORATIONS - War Room Props Around the Board
+   ============================================================================ */
+
+.table-decorations {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.deco-prop {
+  position: absolute;
+  opacity: 0.35;
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.5));
+  transition: opacity 0.3s;
+  image-rendering: pixelated;
+}
+
+.deco-prop img {
+  display: block;
+  image-rendering: pixelated;
+}
+
+/* --- Lamp glow (warm spotlight from above) --- */
+.deco-lamp-glow {
+  position: absolute;
+  top: -100px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 600px;
+  height: 500px;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(200, 160, 60, 0.07) 0%,
+    rgba(180, 140, 50, 0.04) 30%,
+    rgba(160, 120, 40, 0.02) 50%,
+    transparent 70%
+  );
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* --- Compass (top-left) --- */
+.deco-compass {
+  top: 15px;
+  left: 25px;
+  transform: rotate(-12deg);
+  opacity: 0.3;
+}
+
+/* --- Binoculars (top-right) --- */
+.deco-binoculars {
+  top: 20px;
+  right: 30px;
+  transform: rotate(15deg);
+  opacity: 0.28;
+}
+
+/* --- Pistol (bottom-left) --- */
+.deco-pistol {
+  bottom: 20px;
+  left: 20px;
+  transform: rotate(25deg);
+  opacity: 0.25;
+}
+
+/* --- Notepad (bottom-right) --- */
+.deco-notepad {
+  bottom: 15px;
+  right: 25px;
+  transform: rotate(8deg);
+  opacity: 0.3;
+}
+
+/* --- Dog tags (left-mid) --- */
+.deco-dogtags {
+  left: 20px;
+  top: 50%;
+  transform: translateY(-40%) rotate(-5deg);
+  opacity: 0.25;
+}
+
+/* --- Ammo shells (right-mid) --- */
+.deco-ammo {
+  right: 20px;
+  top: 50%;
+  transform: translateY(-20%) rotate(5deg);
+  opacity: 0.22;
+}
+
+/* --- Oil lamp (top-center) --- */
+.deco-oillamp {
+  top: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 0.35;
+}
+
+/* --- Sand scatter (bottom edge) --- */
+.deco-sand-scatter {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 50px;
+  background:
+    radial-gradient(circle at 10% 80%, rgba(196, 168, 104, 0.06) 0%, transparent 50%),
+    radial-gradient(circle at 30% 60%, rgba(196, 168, 104, 0.04) 0%, transparent 40%),
+    radial-gradient(circle at 55% 90%, rgba(196, 168, 104, 0.05) 0%, transparent 45%),
+    radial-gradient(circle at 75% 70%, rgba(196, 168, 104, 0.04) 0%, transparent 35%),
+    radial-gradient(circle at 90% 85%, rgba(196, 168, 104, 0.06) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+/* --- Rope accent (bottom edge) --- */
+.deco-rope-line {
+  position: absolute;
+  bottom: 55px;
+  left: 12%;
+  right: 12%;
+  height: 4px;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      #8a7340 0px,
+      #6a5430 3px,
+      #a88e4e 5px,
+      #6a5430 7px,
+      #8a7340 10px
+    );
+  border-radius: 2px;
+  opacity: 0.12;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  pointer-events: none;
+}
+
+/* ============================================================================
+   RESPONSIVE
+   ============================================================================ */
+
 @media (max-width: 1100px) {
   .game-layout {
     flex-direction: column;
@@ -1630,4 +1772,12 @@ body {
     max-width: 720px;
     max-height: none;
   }
+
+  /* Hide corner decorations on narrow screens */
+  .deco-compass,
+  .deco-binoculars,
+  .deco-pistol,
+  .deco-notepad,
+  .deco-dogtags,
+  .deco-ammo { display: none; }
 }
