@@ -1,37 +1,82 @@
 /* ============================================================================
-   ROARING LION - Main Stylesheet
+   ROARING LION - Premium Military War-Table Card Game Aesthetic
    A Stratego-inspired browser board game
    ============================================================================ */
 
-@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Inter:wght@400;600;700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Inter:wght@400;600;700;900&family=Black+Ops+One&family=Special+Elite&display=swap');
+
+/* ============================================================================
+   CSS CUSTOM PROPERTIES - Military Palette
+   ============================================================================ */
 
 :root {
-  --sand-light: #F5E6C8;
-  --sand-mid: #D4B896;
-  --sand-dark: #A08060;
-  --water: #3B82F6;
-  --water-dark: #1E40AF;
-  --israel-blue: #0038b8;
-  --israel-light: #4d8af0;
-  --iran-green: #239f40;
-  --iran-red: #da0000;
+  /* --- War Table Surface --- */
+  --table-dark: #1a1610;
+  --table-mid: #2a2318;
+  --table-leather: #3a2f20;
+  --table-canvas: #4a3f2e;
+
+  /* --- Map / Board --- */
+  --map-parchment: #c4a66a;
+  --map-tan: #b89a5a;
+  --map-aged: #a88e4e;
+  --map-dark: #8a7340;
+  --map-grid: rgba(60, 45, 20, 0.35);
+
+  /* --- Lake / Water on Map --- */
+  --water-ink: #3a5a7a;
+  --water-stain: #2a4a6a;
+  --water-deep: #1e3a55;
+
+  /* --- Israel (Sandy/Khaki/Tan Card) --- */
+  --il-card-bg: #c4a868;
+  --il-card-dark: #8a7040;
+  --il-card-border: #6a5430;
+  --il-card-accent: #d4af37;
+  --il-emblem: #c5a93a;
+
+  /* --- Iran (Dark Olive/Green Card) --- */
+  --ir-card-bg: #4a5a38;
+  --ir-card-dark: #2a3a1e;
+  --ir-card-border: #3a4a28;
+  --ir-card-accent: #8a9a60;
+  --ir-emblem: #c0a030;
+
+  /* --- Gold / Highlights --- */
   --gold: #D4AF37;
-  --gold-light: #F0D060;
-  --bg-dark: #1a1a2e;
-  --bg-darker: #0f0f1a;
-  --text-primary: #f0f0f0;
-  --text-muted: #888;
-  --attack-red: #ef4444;
-  --move-blue: #3b82f6;
-  --cell-border: rgba(255, 255, 255, 0.08);
+  --gold-bright: #F0D060;
+  --gold-dim: #8B6914;
+  --gold-glow: rgba(212, 175, 55, 0.4);
+
+  /* --- Combat / Status --- */
+  --attack-red: #8b2020;
+  --attack-red-bright: #c43030;
+  --move-amber: #b8941e;
+  --move-amber-dim: rgba(184, 148, 30, 0.35);
+
+  /* --- Text --- */
+  --text-primary: #e8dcc8;
+  --text-muted: #887858;
+  --text-dim: #665840;
+  --text-bright: #f5edd8;
+
+  /* --- Misc --- */
+  --cell-border: rgba(60, 45, 20, 0.25);
+  --panel-bg: rgba(26, 22, 16, 0.92);
+  --panel-border: rgba(100, 80, 50, 0.3);
+  --vignette: radial-gradient(ellipse at center, transparent 50%, rgba(0, 0, 0, 0.7) 100%);
 }
+
+/* ============================================================================
+   RESET & BASE
+   ============================================================================ */
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
-  background: var(--bg-dark);
+  background: var(--table-dark);
   color: var(--text-primary);
-  font-family: 'Inter', system-ui, sans-serif;
+  font-family: 'Special Elite', 'Inter', system-ui, sans-serif;
   overflow: hidden;
   height: 100vh;
 }
@@ -49,11 +94,33 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: radial-gradient(ellipse at center, #1a1a2e 0%, #0a0a15 100%);
+  /* Military war-table: dark leather/canvas texture via layered gradients */
+  background:
+    /* Subtle noise/grain texture */
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='256' height='256' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E"),
+    /* Canvas weave pattern */
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(255, 255, 255, 0.008) 2px,
+      rgba(255, 255, 255, 0.008) 4px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 2px,
+      rgba(255, 255, 255, 0.008) 2px,
+      rgba(255, 255, 255, 0.008) 4px
+    ),
+    /* Warm spotlight from above (war-table lamp) */
+    radial-gradient(ellipse at 50% 30%, rgba(180, 150, 80, 0.06) 0%, transparent 60%),
+    /* Leather darkening at edges */
+    radial-gradient(ellipse at center, var(--table-mid) 0%, var(--table-dark) 100%);
 }
 
 /* ============================================================================
-   MAIN MENU
+   MAIN MENU - Military Command Center
    ============================================================================ */
 
 .menu-container {
@@ -70,14 +137,18 @@ body {
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(ellipse at 30% 50%, rgba(212, 175, 55, 0.08) 0%, transparent 50%),
-    radial-gradient(ellipse at 70% 30%, rgba(0, 56, 184, 0.1) 0%, transparent 40%),
-    radial-gradient(ellipse at 50% 80%, rgba(35, 159, 64, 0.08) 0%, transparent 40%);
+    /* Dramatic spotlight from above */
+    radial-gradient(ellipse at 50% 20%, rgba(212, 175, 55, 0.06) 0%, transparent 50%),
+    /* Side lighting */
+    radial-gradient(ellipse at 20% 80%, rgba(139, 105, 20, 0.04) 0%, transparent 40%),
+    radial-gradient(ellipse at 80% 60%, rgba(100, 80, 30, 0.04) 0%, transparent 40%),
+    /* Vignette */
+    var(--vignette);
   animation: bgPulse 8s ease-in-out infinite alternate;
 }
 
 @keyframes bgPulse {
-  0% { opacity: 0.6; }
+  0% { opacity: 0.7; }
   100% { opacity: 1; }
 }
 
@@ -97,6 +168,7 @@ body {
 
 .lion-icon {
   animation: lionBreathe 3s ease-in-out infinite;
+  filter: drop-shadow(0 0 20px rgba(212, 175, 55, 0.3));
 }
 
 @keyframes lionBreathe {
@@ -105,21 +177,24 @@ body {
 }
 
 .game-title {
-  font-family: 'Press Start 2P', monospace;
-  font-size: 2.5rem;
+  font-family: 'Black Ops One', 'Press Start 2P', monospace;
+  font-size: 2.8rem;
   color: var(--gold);
   text-shadow:
-    0 0 20px rgba(212, 175, 55, 0.5),
-    0 4px 0 #8B6914,
-    0 5px 0 #6B4F10;
-  letter-spacing: 4px;
+    0 0 30px rgba(212, 175, 55, 0.4),
+    0 0 60px rgba(212, 175, 55, 0.15),
+    0 2px 0 var(--gold-dim),
+    0 4px 0 #5a4210,
+    0 6px 12px rgba(0, 0, 0, 0.6);
+  letter-spacing: 6px;
   margin-top: 0.5rem;
 }
 
 .game-subtitle {
   color: var(--text-muted);
-  font-size: 0.9rem;
-  letter-spacing: 3px;
+  font-family: 'Special Elite', serif;
+  font-size: 1rem;
+  letter-spacing: 4px;
   text-transform: uppercase;
   margin-top: 0.5rem;
 }
@@ -129,19 +204,26 @@ body {
   flex-direction: column;
   align-items: center;
   gap: 1.5rem;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 12px;
+  background:
+    linear-gradient(135deg, rgba(42, 35, 24, 0.95), rgba(26, 22, 16, 0.98));
+  border: 1px solid var(--panel-border);
+  border-radius: 4px;
   padding: 2rem;
   backdrop-filter: blur(10px);
-  min-width: 400px;
+  min-width: 420px;
+  /* Worn metal/leather edges */
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.05),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.3),
+    0 8px 32px rgba(0, 0, 0, 0.5),
+    0 0 0 1px rgba(100, 80, 50, 0.15);
 }
 
 .difficulty-selector h3 {
   font-family: 'Press Start 2P', monospace;
-  font-size: 0.65rem;
+  font-size: 0.6rem;
   color: var(--text-muted);
-  letter-spacing: 2px;
+  letter-spacing: 3px;
   margin-bottom: 1rem;
   text-align: center;
 }
@@ -158,9 +240,9 @@ body {
   flex-direction: column;
   align-items: flex-start;
   padding: 0.8rem 1.2rem;
-  background: rgba(255, 255, 255, 0.03);
-  border: 2px solid rgba(255, 255, 255, 0.1);
-  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(100, 80, 50, 0.2);
+  border-radius: 3px;
   color: var(--text-primary);
   cursor: pointer;
   transition: all 0.2s;
@@ -169,70 +251,83 @@ body {
 }
 
 .difficulty-btn:hover {
-  background: rgba(255, 255, 255, 0.06);
-  border-color: rgba(212, 175, 55, 0.3);
+  background: rgba(212, 175, 55, 0.05);
+  border-color: rgba(212, 175, 55, 0.25);
 }
 
 .difficulty-btn.active {
-  background: rgba(212, 175, 55, 0.1);
+  background: rgba(212, 175, 55, 0.08);
   border-color: var(--gold);
-  box-shadow: 0 0 15px rgba(212, 175, 55, 0.2);
+  box-shadow:
+    0 0 12px rgba(212, 175, 55, 0.15),
+    inset 0 0 20px rgba(212, 175, 55, 0.05);
 }
 
 .diff-label {
   font-family: 'Press Start 2P', monospace;
-  font-size: 0.7rem;
-  letter-spacing: 1px;
+  font-size: 0.65rem;
+  letter-spacing: 2px;
+  color: var(--gold);
 }
 
 .diff-desc {
-  font-size: 0.75rem;
+  font-size: 0.8rem;
   color: var(--text-muted);
   margin-top: 0.25rem;
+  font-family: 'Special Elite', serif;
 }
 
 .start-btn {
-  font-family: 'Press Start 2P', monospace;
-  font-size: 0.9rem;
+  font-family: 'Black Ops One', 'Press Start 2P', monospace;
+  font-size: 1rem;
   padding: 1rem 2.5rem;
-  background: linear-gradient(135deg, var(--gold), #B8941E);
-  color: #1a1a2e;
-  border: none;
-  border-radius: 8px;
+  background: linear-gradient(135deg, var(--gold), var(--gold-dim));
+  color: var(--table-dark);
+  border: 2px solid var(--gold);
+  border-radius: 3px;
   cursor: pointer;
-  letter-spacing: 2px;
+  letter-spacing: 3px;
   transition: all 0.2s;
-  box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+  box-shadow:
+    0 4px 15px rgba(212, 175, 55, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  text-transform: uppercase;
 }
 
 .start-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 25px rgba(212, 175, 55, 0.5);
+  box-shadow:
+    0 6px 25px rgba(212, 175, 55, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  background: linear-gradient(135deg, var(--gold-bright), var(--gold));
 }
 
 .rules-btn {
-  font-size: 0.85rem;
+  font-family: 'Special Elite', serif;
+  font-size: 0.9rem;
   padding: 0.6rem 1.5rem;
   background: transparent;
   color: var(--text-muted);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: 6px;
+  border: 1px solid rgba(100, 80, 50, 0.3);
+  border-radius: 3px;
   cursor: pointer;
   transition: all 0.2s;
+  letter-spacing: 2px;
 }
 
 .rules-btn:hover {
   color: var(--text-primary);
-  border-color: rgba(255, 255, 255, 0.3);
+  border-color: rgba(212, 175, 55, 0.3);
 }
 
 .menu-footer {
   display: flex;
   gap: 2rem;
-  color: var(--text-muted);
-  font-size: 0.7rem;
+  color: var(--text-dim);
+  font-family: 'Special Elite', serif;
+  font-size: 0.8rem;
   text-transform: uppercase;
-  letter-spacing: 2px;
+  letter-spacing: 3px;
 }
 
 /* ============================================================================
@@ -245,7 +340,7 @@ body {
   align-items: flex-start;
   justify-content: center;
   width: 100%;
-  max-width: 1200px;
+  max-width: 1300px;
   padding: 1rem;
   height: 100vh;
   overflow-y: auto;
@@ -256,7 +351,7 @@ body {
 }
 
 /* ============================================================================
-   GAME BOARD
+   GAME BOARD - Military Map on War Table
    ============================================================================ */
 
 .board-wrapper {
@@ -273,11 +368,12 @@ body {
 .label-spacer { width: 24px; }
 
 .col-label {
-  width: 64px;
+  width: 72px;
   text-align: center;
-  font-family: 'Press Start 2P', monospace;
-  font-size: 0.5rem;
-  color: var(--text-muted);
+  font-family: 'Special Elite', serif;
+  font-size: 0.65rem;
+  color: var(--text-dim);
+  letter-spacing: 1px;
 }
 
 .board-with-rows {
@@ -291,25 +387,50 @@ body {
 }
 
 .row-label {
-  height: 64px;
+  height: 72px;
   width: 24px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: 'Press Start 2P', monospace;
-  font-size: 0.5rem;
-  color: var(--text-muted);
+  font-family: 'Special Elite', serif;
+  font-size: 0.65rem;
+  color: var(--text-dim);
 }
 
 .board-grid {
   position: relative;
-  border: 3px solid var(--sand-dark);
-  border-radius: 4px;
-  background: var(--sand-dark);
+  border: 4px solid var(--map-dark);
+  border-radius: 2px;
+  /* Parchment map background with aged texture */
+  background:
+    /* Subtle grain texture for aged paper feel */
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.06'/%3E%3C/svg%3E"),
+    /* Aged parchment gradient */
+    radial-gradient(ellipse at 40% 40%, var(--map-parchment) 0%, var(--map-tan) 40%, var(--map-aged) 80%);
   box-shadow:
-    0 0 30px rgba(0, 0, 0, 0.5),
-    inset 0 0 20px rgba(0, 0, 0, 0.2);
-  image-rendering: pixelated;
+    /* Deep outer shadow - map sitting on table */
+    0 8px 40px rgba(0, 0, 0, 0.6),
+    0 2px 8px rgba(0, 0, 0, 0.4),
+    /* Inner aged edge */
+    inset 0 0 30px rgba(100, 70, 20, 0.3),
+    inset 0 0 60px rgba(60, 40, 10, 0.15),
+    /* Vignette corners */
+    inset 8px 8px 20px rgba(0, 0, 0, 0.12),
+    inset -8px -8px 20px rgba(0, 0, 0, 0.12);
+  /* Rough worn frame border */
+  outline: 2px solid rgba(80, 60, 25, 0.4);
+  outline-offset: 2px;
+}
+
+/* Vignette overlay for the board */
+.board-grid::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 10;
+  background:
+    radial-gradient(ellipse at center, transparent 40%, rgba(60, 40, 10, 0.25) 100%);
 }
 
 .board-cell {
@@ -317,86 +438,117 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--sand-light);
-  border: 1px solid var(--cell-border);
+  /* Subtle grid lines like pencil marks on a map */
+  background: transparent;
+  border: 1px solid var(--map-grid);
   cursor: pointer;
-  transition: background 0.15s;
+  transition: background 0.15s, box-shadow 0.15s;
 }
 
+/* Alternating subtle map squares (very faint) */
 .board-cell:nth-child(odd) {
-  background: var(--sand-mid);
+  background: rgba(80, 60, 25, 0.04);
 }
 
-/* Fix checkerboard pattern */
 .board-cell:hover:not(.lake) {
-  background: rgba(212, 175, 55, 0.3);
+  background: rgba(212, 175, 55, 0.12);
+  box-shadow: inset 0 0 15px rgba(212, 175, 55, 0.08);
 }
 
+/* ---- Lake Zones: Blue ink stains / water markings on the old map ---- */
 .board-cell.lake {
-  background: var(--water-dark);
+  background: var(--water-stain);
   cursor: default;
+  border-color: rgba(58, 90, 122, 0.4);
 }
 
 .lake-water {
   width: 100%;
   height: 100%;
   background:
-    linear-gradient(45deg, var(--water) 25%, var(--water-dark) 50%, var(--water) 75%);
-  animation: waterShimmer 3s ease-in-out infinite;
-  border-radius: 2px;
+    /* Watercolor ink bleed effect */
+    radial-gradient(ellipse at 30% 40%, rgba(58, 90, 122, 0.8) 0%, transparent 70%),
+    radial-gradient(ellipse at 70% 60%, rgba(42, 74, 106, 0.7) 0%, transparent 60%),
+    linear-gradient(135deg, var(--water-ink) 0%, var(--water-deep) 50%, var(--water-stain) 100%);
+  animation: waterShimmer 4s ease-in-out infinite;
+  border-radius: 1px;
+  /* Ink stain edge bleed */
+  box-shadow:
+    inset 0 0 10px rgba(30, 58, 85, 0.5),
+    inset 0 0 3px rgba(0, 0, 0, 0.2);
 }
 
 @keyframes waterShimmer {
-  0%, 100% { opacity: 0.8; }
+  0%, 100% { opacity: 0.85; }
   50% { opacity: 1; }
 }
 
+/* ---- Selected Cell: Golden candlelight glow ---- */
 .board-cell.selected {
-  box-shadow: inset 0 0 0 3px var(--gold);
+  box-shadow:
+    inset 0 0 0 2px var(--gold),
+    inset 0 0 20px rgba(212, 175, 55, 0.2),
+    0 0 15px rgba(212, 175, 55, 0.3);
   z-index: 2;
+  background: rgba(212, 175, 55, 0.1);
 }
 
+/* ---- Valid Move Target: Amber dots ---- */
 .board-cell.move-target {
-  background: rgba(59, 130, 246, 0.15);
+  background: rgba(184, 148, 30, 0.08);
 }
 
+/* ---- Attack Target: Muted red pulse ---- */
 .board-cell.attack-target {
-  background: rgba(239, 68, 68, 0.15);
+  background: rgba(139, 32, 32, 0.1);
 }
 
+/* ---- Setup zones ---- */
 .board-cell.player-zone {
-  background: rgba(0, 56, 184, 0.08);
-  border-color: rgba(0, 56, 184, 0.15);
+  background: rgba(196, 168, 104, 0.08);
+  border-color: rgba(196, 168, 104, 0.2);
 }
 
 .board-cell.enemy-zone {
-  background: rgba(100, 100, 100, 0.15);
+  background: rgba(80, 60, 25, 0.1);
 }
 
+/* Move indicator: subtle amber dot on the map */
 .move-indicator {
-  width: 16px;
-  height: 16px;
+  width: 14px;
+  height: 14px;
   border-radius: 50%;
-  background: rgba(59, 130, 246, 0.4);
-  box-shadow: 0 0 8px rgba(59, 130, 246, 0.3);
+  background: radial-gradient(circle, var(--gold) 0%, var(--move-amber) 60%, transparent 100%);
+  opacity: 0.6;
+  box-shadow: 0 0 8px rgba(212, 175, 55, 0.4);
+  animation: moveGlow 1.5s ease-in-out infinite;
 }
 
+@keyframes moveGlow {
+  0%, 100% { opacity: 0.4; transform: scale(0.9); }
+  50% { opacity: 0.7; transform: scale(1.1); }
+}
+
+/* Attack indicator: muted red border pulse */
 .attack-indicator {
   position: absolute;
-  inset: 4px;
-  border: 3px solid var(--attack-red);
-  border-radius: 4px;
-  background: rgba(239, 68, 68, 0.1);
-  animation: attackPulse 1s ease-in-out infinite;
+  inset: 3px;
+  border: 2px solid var(--attack-red);
+  border-radius: 3px;
+  background: rgba(139, 32, 32, 0.08);
+  animation: attackPulse 1.2s ease-in-out infinite;
+  box-shadow:
+    inset 0 0 8px rgba(139, 32, 32, 0.15),
+    0 0 6px rgba(139, 32, 32, 0.2);
 }
 
 @keyframes attackPulse {
-  0%, 100% { opacity: 0.5; }
-  50% { opacity: 1; }
+  0%, 100% { opacity: 0.4; border-color: var(--attack-red); }
+  50% { opacity: 0.9; border-color: var(--attack-red-bright); }
 }
 
 /* ============================================================================
-   PIECE SPRITES
+   PIECE SPRITES - Military Card Design
    ============================================================================ */
 
 .piece-sprite {
@@ -405,79 +557,179 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  border-radius: 6px;
+  border-radius: 3px;
   border: 2px solid;
   overflow: hidden;
   font-size: 0.6rem;
   user-select: none;
   transition: transform 0.15s, box-shadow 0.15s;
   image-rendering: pixelated;
+  /* Worn card aged texture overlay via pseudo-element */
+}
+
+/* Aged/worn texture overlay on every card */
+.piece-sprite::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 128 128' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='grain'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.2' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='128' height='128' filter='url(%23grain)' opacity='0.08'/%3E%3C/svg%3E");
+  z-index: 1;
+}
+
+/* Ornate corner decorations via inset box-shadow */
+.piece-sprite::before {
+  content: '';
+  position: absolute;
+  inset: 2px;
+  border: 1px solid rgba(212, 175, 55, 0.15);
+  border-radius: 2px;
+  pointer-events: none;
+  z-index: 2;
 }
 
 .piece-sprite:hover {
-  transform: scale(1.05);
+  transform: scale(1.06);
+  box-shadow:
+    0 4px 12px rgba(0, 0, 0, 0.4),
+    0 0 8px rgba(212, 175, 55, 0.15);
 }
 
+/* ---- Selected piece: warm golden candlelight ---- */
 .piece-selected {
-  box-shadow: 0 0 12px rgba(212, 175, 55, 0.6) !important;
+  box-shadow:
+    0 0 16px rgba(212, 175, 55, 0.5),
+    0 0 30px rgba(212, 175, 55, 0.2),
+    inset 0 0 10px rgba(212, 175, 55, 0.1) !important;
   transform: scale(1.08);
   border-color: var(--gold) !important;
   z-index: 5;
 }
 
+/* ---- Hidden Enemy Card Back ---- */
 .piece-hidden {
   justify-content: center;
-  gap: 2px;
+  gap: 4px;
+  /* Ornate decorative border pattern */
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.06),
+    inset 0 0 15px rgba(0, 0, 0, 0.3),
+    0 2px 6px rgba(0, 0, 0, 0.4);
+}
+
+/* Decorative pattern on card backs */
+.piece-hidden::before {
+  content: '';
+  position: absolute;
+  inset: 3px;
+  border: 1px solid rgba(192, 160, 48, 0.2);
+  border-radius: 2px;
+  /* Double frame for ornate look */
+  box-shadow: inset 0 0 0 2px rgba(0, 0, 0, 0.15);
+  pointer-events: none;
+  z-index: 2;
 }
 
 .piece-emblem {
   display: flex;
   justify-content: center;
   align-items: center;
-  opacity: 0.7;
+  opacity: 0.85;
+  /* Golden emblem glow */
+  filter: drop-shadow(0 0 4px rgba(212, 175, 55, 0.3));
 }
 
 .piece-question {
   font-family: 'Press Start 2P', monospace;
-  font-size: 0.6rem;
-  color: rgba(255, 255, 255, 0.3);
+  font-size: 0.5rem;
+  color: rgba(212, 175, 55, 0.25);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
+/* ---- Revealed Face Card ---- */
 .piece-revealed {
   gap: 1px;
   padding: 2px;
+  /* Card face box-shadow: premium embossed look */
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.1),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.2),
+    0 2px 8px rgba(0, 0, 0, 0.5),
+    0 0 0 1px rgba(0, 0, 0, 0.2);
 }
 
+/* Inner ornate frame for face cards */
+.piece-revealed::before {
+  content: '';
+  position: absolute;
+  inset: 3px;
+  border: 1px solid rgba(212, 175, 55, 0.12);
+  border-radius: 1px;
+  pointer-events: none;
+  z-index: 2;
+  /* Corner notch decorations */
+  background:
+    /* Top-left corner mark */
+    linear-gradient(135deg, rgba(212, 175, 55, 0.15) 3px, transparent 3px),
+    /* Top-right corner mark */
+    linear-gradient(225deg, rgba(212, 175, 55, 0.15) 3px, transparent 3px),
+    /* Bottom-left corner mark */
+    linear-gradient(45deg, rgba(212, 175, 55, 0.15) 3px, transparent 3px),
+    /* Bottom-right corner mark */
+    linear-gradient(315deg, rgba(212, 175, 55, 0.15) 3px, transparent 3px);
+}
+
+/* ---- Rank Badge (top-right corner) ---- */
 .piece-rank-badge {
   position: absolute;
   top: 2px;
   right: 2px;
   font-family: 'Press Start 2P', monospace;
-  font-size: 0.45rem;
-  color: white;
+  font-size: 0.4rem;
+  color: var(--gold);
   padding: 1px 3px;
-  border-radius: 3px;
+  border-radius: 2px;
   line-height: 1;
+  z-index: 3;
+  /* Dark badge with gold text */
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
 }
 
+/* ---- Piece Icon (center area - pixel art / SVG zone) ---- */
 .piece-icon {
-  font-size: 1.3rem;
-  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 3;
+  flex-shrink: 0;
+  /* Slight emboss effect */
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.4));
 }
 
+.piece-icon img {
+  display: block;
+}
+
+/* ---- Unit Name (bottom of card) ---- */
 .piece-name {
+  font-family: 'Special Elite', serif;
   font-size: 0.4rem;
   font-weight: 700;
   text-align: center;
-  color: white;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+  color: var(--text-bright);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
   max-width: 100%;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
   padding: 0 2px;
+  z-index: 3;
+  letter-spacing: 0.5px;
 }
 
+/* ---- Revealed Indicator (!  badge) ---- */
 .piece-revealed-badge {
   position: absolute;
   top: 2px;
@@ -487,54 +739,81 @@ body {
   border-radius: 50%;
   background: var(--attack-red);
   color: white;
-  font-size: 0.4rem;
+  font-size: 0.35rem;
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: bold;
+  z-index: 3;
+  box-shadow: 0 0 4px rgba(139, 32, 32, 0.5);
+  border: 1px solid rgba(196, 48, 48, 0.6);
 }
 
 /* ============================================================================
-   SETUP PANEL
+   SETUP PANEL - Military Dossier / Folder
    ============================================================================ */
 
 .setup-panel {
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  width: 280px;
+  width: 290px;
   max-height: 100vh;
   overflow-y: auto;
-  padding: 1rem;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 12px;
+  padding: 1.2rem;
+  /* Aged manila folder / dossier look */
+  background:
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 128 128' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='128' height='128' filter='url(%23f)' opacity='0.04'/%3E%3C/svg%3E"),
+    linear-gradient(180deg, rgba(42, 35, 24, 0.95), rgba(26, 22, 16, 0.98));
+  border: 1px solid var(--panel-border);
+  border-radius: 3px;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.04),
+    0 4px 20px rgba(0, 0, 0, 0.4);
+}
+
+/* Red "CLASSIFIED" style top tab */
+.setup-panel::before {
+  content: 'CLASSIFIED';
+  display: block;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.45rem;
+  color: var(--attack-red-bright);
+  letter-spacing: 4px;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid rgba(139, 32, 32, 0.3);
+  margin-bottom: 0.25rem;
+  text-align: center;
+  opacity: 0.6;
 }
 
 .setup-header h2 {
-  font-family: 'Press Start 2P', monospace;
+  font-family: 'Black Ops One', 'Press Start 2P', monospace;
   font-size: 0.75rem;
   color: var(--gold);
-  letter-spacing: 1px;
+  letter-spacing: 2px;
+  text-shadow: 0 0 10px rgba(212, 175, 55, 0.2);
 }
 
 .setup-header p {
-  font-size: 0.8rem;
+  font-family: 'Special Elite', serif;
+  font-size: 0.85rem;
   color: var(--text-muted);
   margin-top: 0.5rem;
 }
 
 .setup-counter {
   font-family: 'Press Start 2P', monospace;
-  font-size: 0.65rem;
-  color: var(--israel-light);
+  font-size: 0.6rem;
+  color: var(--gold);
   margin-top: 0.5rem;
+  text-shadow: 0 0 8px rgba(212, 175, 55, 0.2);
 }
 
 .setup-pieces-tray {
   display: flex;
   flex-direction: column;
-  gap: 0.4rem;
+  gap: 0.35rem;
 }
 
 .setup-rank-group {
@@ -545,8 +824,8 @@ body {
 
 .rank-count {
   font-family: 'Press Start 2P', monospace;
-  font-size: 0.5rem;
-  color: var(--text-muted);
+  font-size: 0.45rem;
+  color: var(--text-dim);
   width: 28px;
   text-align: right;
 }
@@ -557,17 +836,20 @@ body {
   align-items: center;
   gap: 0.5rem;
   padding: 0.4rem 0.6rem;
-  background: linear-gradient(135deg, rgba(0, 56, 184, 0.15), rgba(0, 56, 184, 0.05));
-  border: 1px solid rgba(0, 56, 184, 0.3);
-  border-radius: 6px;
+  /* Khaki/tan card in the dossier */
+  background:
+    linear-gradient(135deg, rgba(196, 168, 104, 0.12), rgba(196, 168, 104, 0.04));
+  border: 1px solid rgba(196, 168, 104, 0.2);
+  border-radius: 2px;
   cursor: grab;
   transition: all 0.15s;
 }
 
 .setup-piece-card:hover {
-  background: linear-gradient(135deg, rgba(0, 56, 184, 0.25), rgba(0, 56, 184, 0.1));
-  border-color: var(--israel-light);
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.15), rgba(212, 175, 55, 0.05));
+  border-color: var(--gold);
   transform: translateX(4px);
+  box-shadow: 0 2px 8px rgba(212, 175, 55, 0.15);
 }
 
 .setup-piece-card:active {
@@ -576,13 +858,14 @@ body {
 
 .spc-rank {
   font-family: 'Press Start 2P', monospace;
-  font-size: 0.55rem;
-  color: var(--israel-light);
+  font-size: 0.5rem;
+  color: var(--gold);
   min-width: 24px;
 }
 
 .spc-name {
-  font-size: 0.7rem;
+  font-family: 'Special Elite', serif;
+  font-size: 0.8rem;
   color: var(--text-primary);
   white-space: nowrap;
   overflow: hidden;
@@ -596,52 +879,61 @@ body {
 }
 
 /* ============================================================================
-   BUTTONS
+   BUTTONS - Military Stencil Style
    ============================================================================ */
 
 .btn {
-  font-family: 'Inter', sans-serif;
+  font-family: 'Black Ops One', 'Inter', sans-serif;
   font-weight: 600;
   font-size: 0.85rem;
   padding: 0.7rem 1.2rem;
-  border-radius: 6px;
+  border-radius: 3px;
   border: none;
   cursor: pointer;
   transition: all 0.15s;
   text-transform: uppercase;
-  letter-spacing: 1px;
+  letter-spacing: 2px;
 }
 
 .btn-primary {
-  background: linear-gradient(135deg, var(--gold), #B8941E);
-  color: #1a1a2e;
-  box-shadow: 0 2px 10px rgba(212, 175, 55, 0.3);
+  background: linear-gradient(180deg, var(--gold), var(--gold-dim));
+  color: var(--table-dark);
+  border: 1px solid var(--gold);
+  box-shadow:
+    0 2px 10px rgba(212, 175, 55, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.15);
 }
 
 .btn-primary:hover {
-  box-shadow: 0 4px 20px rgba(212, 175, 55, 0.5);
+  box-shadow:
+    0 4px 20px rgba(212, 175, 55, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
   transform: translateY(-1px);
+  background: linear-gradient(180deg, var(--gold-bright), var(--gold));
 }
 
 .btn-secondary {
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.04);
   color: var(--text-primary);
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(100, 80, 50, 0.3);
 }
 
 .btn-secondary:hover {
-  background: rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(212, 175, 55, 0.25);
 }
 
 .btn-ghost {
   background: transparent;
   color: var(--text-muted);
   border: 1px solid transparent;
+  font-family: 'Special Elite', serif;
 }
 
 .btn-ghost:hover {
   color: var(--text-primary);
-  border-color: rgba(255, 255, 255, 0.1);
+  border-color: rgba(100, 80, 50, 0.3);
 }
 
 .btn-sm {
@@ -650,13 +942,13 @@ body {
 }
 
 .btn-disabled {
-  opacity: 0.5;
+  opacity: 0.4;
   cursor: not-allowed;
   pointer-events: none;
 }
 
 /* ============================================================================
-   GAME HUD
+   GAME HUD - Field Intelligence Panel
    ============================================================================ */
 
 .game-hud {
@@ -667,9 +959,14 @@ body {
   max-height: 100vh;
   overflow-y: auto;
   padding: 1rem;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 12px;
+  background:
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 128 128' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='128' height='128' filter='url(%23f)' opacity='0.04'/%3E%3C/svg%3E"),
+    linear-gradient(180deg, rgba(42, 35, 24, 0.95), rgba(26, 22, 16, 0.98));
+  border: 1px solid var(--panel-border);
+  border-radius: 3px;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.04),
+    0 4px 20px rgba(0, 0, 0, 0.4);
 }
 
 .turn-info {
@@ -681,23 +978,24 @@ body {
 
 .turn-indicator {
   font-family: 'Press Start 2P', monospace;
-  font-size: 0.65rem;
+  font-size: 0.6rem;
   padding: 0.6rem 1rem;
-  border-radius: 6px;
+  border-radius: 3px;
   text-align: center;
   width: 100%;
+  letter-spacing: 1px;
 }
 
 .turn-indicator.israel {
-  background: rgba(0, 56, 184, 0.15);
-  border: 1px solid rgba(0, 56, 184, 0.3);
-  color: var(--israel-light);
+  background: rgba(196, 168, 104, 0.1);
+  border: 1px solid rgba(196, 168, 104, 0.3);
+  color: var(--il-card-bg);
 }
 
 .turn-indicator.iran {
-  background: rgba(35, 159, 64, 0.15);
-  border: 1px solid rgba(35, 159, 64, 0.3);
-  color: var(--iran-green);
+  background: rgba(74, 90, 56, 0.15);
+  border: 1px solid rgba(74, 90, 56, 0.35);
+  color: var(--ir-card-accent);
 }
 
 .thinking {
@@ -712,7 +1010,7 @@ body {
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: var(--iran-green);
+  background: var(--gold);
   animation: dotPulse 1s ease-in-out infinite;
 }
 
@@ -722,42 +1020,46 @@ body {
 }
 
 .turn-number {
-  font-size: 0.75rem;
+  font-family: 'Special Elite', serif;
+  font-size: 0.8rem;
   color: var(--text-muted);
 }
 
 .difficulty-badge {
   font-family: 'Press Start 2P', monospace;
-  font-size: 0.45rem;
+  font-size: 0.4rem;
   padding: 0.3rem 0.6rem;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 4px;
-  color: var(--text-muted);
-  letter-spacing: 2px;
+  background: rgba(212, 175, 55, 0.05);
+  border: 1px solid rgba(212, 175, 55, 0.15);
+  border-radius: 2px;
+  color: var(--gold);
+  letter-spacing: 3px;
+  opacity: 0.6;
 }
 
+/* ---- Captured Trays ---- */
 .captured-tray {
-  padding: 0.5rem;
-  border-radius: 6px;
+  padding: 0.6rem;
+  border-radius: 3px;
 }
 
 .captured-tray.israel {
-  background: rgba(0, 56, 184, 0.08);
-  border: 1px solid rgba(0, 56, 184, 0.15);
+  background: rgba(196, 168, 104, 0.06);
+  border: 1px solid rgba(196, 168, 104, 0.15);
 }
 
 .captured-tray.iran {
-  background: rgba(239, 68, 68, 0.08);
-  border: 1px solid rgba(239, 68, 68, 0.15);
+  background: rgba(139, 32, 32, 0.06);
+  border: 1px solid rgba(139, 32, 32, 0.15);
 }
 
 .captured-tray h4 {
-  font-size: 0.7rem;
+  font-family: 'Special Elite', serif;
+  font-size: 0.75rem;
   color: var(--text-muted);
   margin-bottom: 0.5rem;
   text-transform: uppercase;
-  letter-spacing: 1px;
+  letter-spacing: 2px;
 }
 
 .captured-pieces {
@@ -767,8 +1069,9 @@ body {
 }
 
 .empty-tray {
-  font-size: 0.7rem;
-  color: rgba(255, 255, 255, 0.2);
+  font-family: 'Special Elite', serif;
+  font-size: 0.75rem;
+  color: var(--text-dim);
   font-style: italic;
 }
 
@@ -777,26 +1080,31 @@ body {
   align-items: center;
   gap: 2px;
   padding: 2px 6px;
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 4px;
+  background: rgba(212, 175, 55, 0.06);
+  border: 1px solid rgba(100, 80, 50, 0.2);
+  border-radius: 2px;
   font-size: 0.65rem;
+  font-family: 'Special Elite', serif;
 }
 
 .cap-rank { color: var(--text-primary); }
-.cap-count { color: var(--text-muted); font-size: 0.55rem; }
+.cap-count { color: var(--text-dim); font-size: 0.55rem; }
 
+/* ---- Move History ---- */
 .move-history {
-  padding: 0.5rem;
-  background: rgba(0, 0, 0, 0.2);
-  border-radius: 6px;
+  padding: 0.6rem;
+  background: rgba(0, 0, 0, 0.25);
+  border-radius: 3px;
+  border: 1px solid rgba(100, 80, 50, 0.1);
 }
 
 .move-history h4 {
-  font-size: 0.7rem;
+  font-family: 'Special Elite', serif;
+  font-size: 0.75rem;
   color: var(--text-muted);
   margin-bottom: 0.5rem;
   text-transform: uppercase;
-  letter-spacing: 1px;
+  letter-spacing: 2px;
 }
 
 .history-list {
@@ -813,16 +1121,17 @@ body {
   gap: 0.4rem;
   font-size: 0.65rem;
   padding: 0.2rem 0.4rem;
-  border-radius: 3px;
+  border-radius: 2px;
+  font-family: 'Special Elite', serif;
 }
 
-.history-entry.israel { background: rgba(0, 56, 184, 0.08); }
-.history-entry.iran { background: rgba(35, 159, 64, 0.08); }
+.history-entry.israel { background: rgba(196, 168, 104, 0.06); }
+.history-entry.iran { background: rgba(74, 90, 56, 0.08); }
 
-.hist-turn { color: var(--text-muted); min-width: 24px; }
+.hist-turn { color: var(--text-dim); min-width: 24px; font-family: monospace; }
 .hist-side { font-size: 0.8rem; }
 .hist-move { color: var(--text-primary); font-family: monospace; }
-.hist-combat { color: var(--gold); font-style: italic; margin-left: auto; }
+.hist-combat { color: var(--gold); font-style: italic; margin-left: auto; font-size: 0.6rem; }
 
 .hud-actions {
   display: flex;
@@ -831,13 +1140,14 @@ body {
 }
 
 /* ============================================================================
-   BATTLE POPUP
+   BATTLE POPUP - Military Briefing Card
    ============================================================================ */
 
 .battle-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.8);
+  background:
+    radial-gradient(ellipse at center, rgba(26, 22, 16, 0.85) 0%, rgba(0, 0, 0, 0.95) 100%);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -851,27 +1161,44 @@ body {
 }
 
 .battle-popup {
-  background: linear-gradient(135deg, #1a1a2e, #2a2a4e);
+  /* Dark worn military briefing card */
+  background:
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E"),
+    linear-gradient(135deg, #2a2318 0%, #1a1610 50%, #2a2318 100%);
   border: 2px solid var(--gold);
-  border-radius: 16px;
+  border-radius: 4px;
   padding: 2rem;
-  min-width: 500px;
-  box-shadow: 0 0 60px rgba(212, 175, 55, 0.3);
+  min-width: 520px;
+  box-shadow:
+    0 0 60px rgba(212, 175, 55, 0.2),
+    0 20px 60px rgba(0, 0, 0, 0.6),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05),
+    inset 0 0 40px rgba(0, 0, 0, 0.2);
   animation: popIn 0.3s ease-out;
+  /* Worn corner edges */
+  outline: 1px solid rgba(100, 80, 50, 0.2);
+  outline-offset: 3px;
 }
 
 @keyframes popIn {
-  from { transform: scale(0.8); opacity: 0; }
+  from { transform: scale(0.85); opacity: 0; }
   to { transform: scale(1); opacity: 1; }
 }
 
+/* "COMBAT REPORT" stamped header */
 .battle-title {
-  font-family: 'Press Start 2P', monospace;
+  font-family: 'Black Ops One', 'Press Start 2P', monospace;
   text-align: center;
   color: var(--gold);
-  font-size: 1.2rem;
-  letter-spacing: 4px;
+  font-size: 1.3rem;
+  letter-spacing: 6px;
   margin-bottom: 1.5rem;
+  text-shadow:
+    0 0 20px rgba(212, 175, 55, 0.3),
+    0 2px 4px rgba(0, 0, 0, 0.5);
+  /* Red stamp underline */
+  padding-bottom: 0.75rem;
+  border-bottom: 2px solid rgba(139, 32, 32, 0.3);
 }
 
 .battle-arena {
@@ -886,64 +1213,80 @@ body {
   flex-direction: column;
   align-items: center;
   gap: 0.5rem;
-  padding: 1.2rem;
-  border-radius: 12px;
-  min-width: 140px;
+  padding: 1.2rem 1.5rem;
+  border-radius: 4px;
+  min-width: 150px;
   transition: all 0.5s;
+  position: relative;
 }
 
+/* Israel battle card: sandy/khaki worn card */
 .battle-card.israel {
-  background: linear-gradient(135deg, rgba(0, 56, 184, 0.3), rgba(0, 56, 184, 0.1));
-  border: 2px solid var(--israel-blue);
+  background:
+    linear-gradient(135deg, rgba(196, 168, 104, 0.2), rgba(138, 112, 64, 0.1));
+  border: 2px solid var(--il-card-border);
+  box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.15);
 }
 
+/* Iran battle card: dark olive worn card */
 .battle-card.iran {
-  background: linear-gradient(135deg, rgba(35, 159, 64, 0.3), rgba(35, 159, 64, 0.1));
-  border: 2px solid var(--iran-green);
+  background:
+    linear-gradient(135deg, rgba(74, 90, 56, 0.25), rgba(42, 58, 30, 0.15));
+  border: 2px solid var(--ir-card-border);
+  box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.15);
 }
 
 .battle-card.destroyed {
-  opacity: 0.4;
-  transform: scale(0.9);
+  opacity: 0.35;
+  transform: scale(0.9) rotate(-2deg);
   border-color: var(--attack-red);
+  filter: grayscale(0.4);
 }
 
 .battle-card.survived {
-  box-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+  box-shadow:
+    0 0 25px rgba(212, 175, 55, 0.25),
+    inset 0 0 15px rgba(212, 175, 55, 0.05);
+  border-color: var(--gold);
 }
 
 .bc-side {
-  font-size: 0.7rem;
+  font-family: 'Special Elite', serif;
+  font-size: 0.75rem;
   color: var(--text-muted);
   text-transform: uppercase;
-  letter-spacing: 1px;
+  letter-spacing: 2px;
 }
 
 .bc-rank {
-  font-family: 'Press Start 2P', monospace;
-  font-size: 1.5rem;
+  font-family: 'Black Ops One', 'Press Start 2P', monospace;
+  font-size: 1.8rem;
   color: var(--gold);
+  text-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
 }
 
 .bc-name {
-  font-size: 0.85rem;
+  font-family: 'Special Elite', serif;
+  font-size: 0.9rem;
   font-weight: 600;
   color: var(--text-primary);
   text-align: center;
 }
 
 .bc-role {
-  font-size: 0.6rem;
-  color: var(--text-muted);
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.45rem;
+  color: var(--text-dim);
   text-transform: uppercase;
-  letter-spacing: 2px;
+  letter-spacing: 3px;
 }
 
 .battle-vs {
-  font-family: 'Press Start 2P', monospace;
-  font-size: 1.5rem;
-  color: var(--attack-red);
+  font-family: 'Black Ops One', 'Press Start 2P', monospace;
+  font-size: 1.8rem;
+  color: var(--attack-red-bright);
   animation: vsPulse 0.5s ease-in-out infinite alternate;
+  text-shadow: 0 0 20px rgba(196, 48, 48, 0.4);
 }
 
 @keyframes vsPulse {
@@ -953,14 +1296,15 @@ body {
 
 .vs-resolved {
   animation: none;
-  color: var(--text-muted);
+  color: var(--text-dim);
+  text-shadow: none;
 }
 
 .battle-outcome {
   text-align: center;
   margin-top: 1.5rem;
   padding: 1rem;
-  border-radius: 8px;
+  border-radius: 3px;
   animation: slideUp 0.3s ease-out;
 }
 
@@ -970,32 +1314,42 @@ body {
 }
 
 .outcome-win {
-  background: rgba(212, 175, 55, 0.1);
-  border: 1px solid rgba(212, 175, 55, 0.3);
+  background: rgba(212, 175, 55, 0.08);
+  border: 1px solid rgba(212, 175, 55, 0.25);
+  box-shadow: inset 0 0 20px rgba(212, 175, 55, 0.05);
 }
 
 .outcome-lose {
-  background: rgba(239, 68, 68, 0.1);
-  border: 1px solid rgba(239, 68, 68, 0.3);
+  background: rgba(139, 32, 32, 0.08);
+  border: 1px solid rgba(139, 32, 32, 0.25);
 }
 
 .outcome-draw {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(100, 80, 50, 0.2);
 }
 
 .outcome-text {
-  font-family: 'Press Start 2P', monospace;
-  font-size: 0.9rem;
-  letter-spacing: 2px;
+  font-family: 'Black Ops One', 'Press Start 2P', monospace;
+  font-size: 1rem;
+  letter-spacing: 3px;
 }
 
-.outcome-win .outcome-text { color: var(--gold); }
-.outcome-lose .outcome-text { color: var(--attack-red); }
-.outcome-draw .outcome-text { color: var(--text-muted); }
+.outcome-win .outcome-text {
+  color: var(--gold);
+  text-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
+}
+.outcome-lose .outcome-text {
+  color: var(--attack-red-bright);
+  text-shadow: 0 0 15px rgba(196, 48, 48, 0.3);
+}
+.outcome-draw .outcome-text {
+  color: var(--text-muted);
+}
 
 .outcome-winner {
-  font-size: 0.75rem;
+  font-family: 'Special Elite', serif;
+  font-size: 0.8rem;
   color: var(--text-muted);
   margin-top: 0.5rem;
 }
@@ -1006,7 +1360,7 @@ body {
 }
 
 /* ============================================================================
-   GAME OVER
+   GAME OVER - War Declaration / Victory Dispatch
    ============================================================================ */
 
 .gameover-overlay {
@@ -1020,11 +1374,13 @@ body {
 }
 
 .gameover-overlay.victory {
-  background: radial-gradient(ellipse at center, rgba(212, 175, 55, 0.2) 0%, rgba(0, 0, 0, 0.9) 70%);
+  background:
+    radial-gradient(ellipse at center, rgba(212, 175, 55, 0.12) 0%, rgba(0, 0, 0, 0.92) 70%);
 }
 
 .gameover-overlay.defeat {
-  background: radial-gradient(ellipse at center, rgba(239, 68, 68, 0.15) 0%, rgba(0, 0, 0, 0.9) 70%);
+  background:
+    radial-gradient(ellipse at center, rgba(139, 32, 32, 0.1) 0%, rgba(0, 0, 0, 0.92) 70%);
 }
 
 .gameover-content {
@@ -1039,21 +1395,37 @@ body {
 .gameover-icon {
   font-size: 4rem;
   animation: lionBreathe 2s ease-in-out infinite;
+  filter: drop-shadow(0 0 20px rgba(212, 175, 55, 0.3));
 }
 
 .gameover-title {
-  font-family: 'Press Start 2P', monospace;
-  font-size: 2.5rem;
-  letter-spacing: 4px;
+  font-family: 'Black Ops One', 'Press Start 2P', monospace;
+  font-size: 3rem;
+  letter-spacing: 6px;
 }
 
-.victory .gameover-title { color: var(--gold); text-shadow: 0 0 40px rgba(212, 175, 55, 0.5); }
-.defeat .gameover-title { color: var(--attack-red); text-shadow: 0 0 40px rgba(239, 68, 68, 0.5); }
+.victory .gameover-title {
+  color: var(--gold);
+  text-shadow:
+    0 0 40px rgba(212, 175, 55, 0.4),
+    0 0 80px rgba(212, 175, 55, 0.15),
+    0 4px 8px rgba(0, 0, 0, 0.5);
+}
+
+.defeat .gameover-title {
+  color: var(--attack-red-bright);
+  text-shadow:
+    0 0 40px rgba(196, 48, 48, 0.4),
+    0 0 80px rgba(196, 48, 48, 0.15),
+    0 4px 8px rgba(0, 0, 0, 0.5);
+}
 
 .gameover-subtitle {
-  font-size: 1rem;
+  font-family: 'Special Elite', serif;
+  font-size: 1.1rem;
   color: var(--text-muted);
   max-width: 400px;
+  letter-spacing: 1px;
 }
 
 .gameover-stats {
@@ -1061,9 +1433,13 @@ body {
   grid-template-columns: repeat(3, 1fr);
   gap: 1rem;
   padding: 1.5rem;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 12px;
+  background:
+    linear-gradient(135deg, rgba(42, 35, 24, 0.9), rgba(26, 22, 16, 0.95));
+  border: 1px solid var(--panel-border);
+  border-radius: 4px;
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);
 }
 
 .stat {
@@ -1074,16 +1450,18 @@ body {
 }
 
 .stat-value {
-  font-family: 'Press Start 2P', monospace;
-  font-size: 1rem;
+  font-family: 'Black Ops One', 'Press Start 2P', monospace;
+  font-size: 1.1rem;
   color: var(--gold);
+  text-shadow: 0 0 10px rgba(212, 175, 55, 0.2);
 }
 
 .stat-label {
-  font-size: 0.65rem;
+  font-family: 'Special Elite', serif;
+  font-size: 0.7rem;
   color: var(--text-muted);
   text-transform: uppercase;
-  letter-spacing: 1px;
+  letter-spacing: 2px;
 }
 
 .gameover-actions {
@@ -1092,13 +1470,13 @@ body {
 }
 
 /* ============================================================================
-   RULES MODAL
+   RULES MODAL - Military Field Manual
    ============================================================================ */
 
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.8);
+  background: rgba(0, 0, 0, 0.85);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -1107,44 +1485,55 @@ body {
 }
 
 .modal-content {
-  background: #1a1a2e;
-  border: 2px solid rgba(255, 255, 255, 0.1);
-  border-radius: 16px;
-  max-width: 600px;
+  background:
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 128 128' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='128' height='128' filter='url(%23f)' opacity='0.04'/%3E%3C/svg%3E"),
+    linear-gradient(180deg, #2a2318, #1a1610);
+  border: 2px solid rgba(212, 175, 55, 0.2);
+  border-radius: 4px;
+  max-width: 620px;
   max-height: 80vh;
   overflow-y: auto;
   padding: 2rem;
   position: relative;
+  box-shadow:
+    0 20px 60px rgba(0, 0, 0, 0.6),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
 }
 
 .modal-close {
   position: absolute;
   top: 1rem;
   right: 1rem;
-  background: rgba(255, 255, 255, 0.1);
-  border: none;
-  color: var(--text-primary);
+  background: rgba(100, 80, 50, 0.15);
+  border: 1px solid rgba(100, 80, 50, 0.3);
+  color: var(--text-muted);
   width: 32px;
   height: 32px;
-  border-radius: 6px;
+  border-radius: 3px;
   cursor: pointer;
   font-family: 'Press Start 2P', monospace;
-  font-size: 0.6rem;
+  font-size: 0.5rem;
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: all 0.15s;
 }
 
 .modal-close:hover {
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(212, 175, 55, 0.1);
+  border-color: var(--gold);
+  color: var(--gold);
 }
 
 .rules-modal h2 {
-  font-family: 'Press Start 2P', monospace;
-  font-size: 0.9rem;
+  font-family: 'Black Ops One', 'Press Start 2P', monospace;
+  font-size: 1rem;
   color: var(--gold);
-  letter-spacing: 2px;
+  letter-spacing: 4px;
   margin-bottom: 1.5rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid rgba(212, 175, 55, 0.15);
+  text-shadow: 0 0 10px rgba(212, 175, 55, 0.2);
 }
 
 .rules-content {
@@ -1154,18 +1543,24 @@ body {
 }
 
 .rule-section h3 {
-  font-size: 0.85rem;
-  color: var(--israel-light);
+  font-family: 'Black Ops One', sans-serif;
+  font-size: 0.9rem;
+  color: var(--gold);
   margin-bottom: 0.4rem;
   text-transform: uppercase;
-  letter-spacing: 1px;
+  letter-spacing: 2px;
 }
 
 .rule-section p {
-  font-size: 0.8rem;
+  font-family: 'Special Elite', serif;
+  font-size: 0.85rem;
   color: var(--text-muted);
-  line-height: 1.6;
+  line-height: 1.7;
   margin-bottom: 0.3rem;
+}
+
+.rule-section strong {
+  color: var(--text-primary);
 }
 
 .rules-table {
@@ -1176,23 +1571,63 @@ body {
 
 .rules-table td {
   padding: 0.4rem 0.6rem;
-  font-size: 0.75rem;
+  font-family: 'Special Elite', serif;
+  font-size: 0.8rem;
   color: var(--text-muted);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid rgba(100, 80, 50, 0.15);
   vertical-align: top;
 }
 
 .rules-table td:first-child {
   color: var(--gold);
   white-space: nowrap;
-  width: 80px;
+  width: 85px;
 }
 
 /* ============================================================================
-   SCROLLBAR
+   SCROLLBAR - Worn Metal
    ============================================================================ */
 
 ::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.15); border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.25); }
+::-webkit-scrollbar-track { background: rgba(26, 22, 16, 0.5); }
+::-webkit-scrollbar-thumb {
+  background: rgba(212, 175, 55, 0.2);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(212, 175, 55, 0.35);
+}
+
+/* ============================================================================
+   UTILITY ANIMATIONS
+   ============================================================================ */
+
+@keyframes cardDeal {
+  from { transform: translateY(-20px) rotate(-5deg); opacity: 0; }
+  to { transform: translateY(0) rotate(0); opacity: 1; }
+}
+
+@keyframes stampPress {
+  0% { transform: scale(1.5) rotate(-10deg); opacity: 0; }
+  50% { transform: scale(0.95) rotate(0deg); opacity: 1; }
+  100% { transform: scale(1) rotate(0deg); opacity: 1; }
+}
+
+/* ============================================================================
+   RESPONSIVE - Smaller screens
+   ============================================================================ */
+
+@media (max-width: 1100px) {
+  .game-layout {
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.5rem;
+  }
+
+  .setup-panel, .game-hud {
+    width: 100%;
+    max-width: 720px;
+    max-height: none;
+  }
+}

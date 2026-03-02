@@ -13,7 +13,7 @@ import type { GamePiece, PieceType, Position, Rank, Side } from './types';
 export const BOARD_SIZE = 10;
 
 /** Pixel size of each cell for rendering */
-export const CELL_SIZE = 64;
+export const CELL_SIZE = 72;
 
 // ---------------------------------------------------------------------------
 // Lake Positions (impassable terrain in the center of the board)
