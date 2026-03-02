@@ -335,6 +335,8 @@ body {
    ============================================================================ */
 
 .game-layout {
+  position: relative;
+  z-index: 1;
   display: flex;
   gap: 1.5rem;
   align-items: flex-start;
