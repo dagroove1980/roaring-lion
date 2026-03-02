@@ -55,32 +55,9 @@ export default function TableDecorations() {
         </svg>
       </div>
 
-      {/* Left-mid: dog tags (SVG) */}
+      {/* Left-mid: dog tags */}
       <div className="deco-prop deco-dogtags">
-        <svg width="55" height="90" viewBox="0 0 44 72" fill="none">
-          {/* Chain */}
-          {[0,4,8,12,16].map(i => (
-            <circle key={i} cx={22+Math.sin(i)*2} cy={4+i*1.5} r="1.5" fill="none" stroke="#887858" strokeWidth=".8"/>
-          ))}
-          {/* Tag 1 */}
-          <g transform="rotate(-8 22 38)">
-            <rect x="6" y="28" width="22" height="32" rx="4" fill="#9a9080" stroke="#665840" strokeWidth=".8"/>
-            <rect x="6" y="28" width="22" height="32" rx="4" fill="#b8b0a0" opacity=".3"/>
-            <line x1="10" y1="36" x2="24" y2="36" stroke="#665840" strokeWidth=".5" opacity=".5"/>
-            <line x1="10" y1="40" x2="22" y2="40" stroke="#665840" strokeWidth=".5" opacity=".5"/>
-            <line x1="10" y1="44" x2="20" y2="44" stroke="#665840" strokeWidth=".5" opacity=".4"/>
-            <circle cx="17" cy="30" r="2" fill="none" stroke="#665840" strokeWidth=".6"/>
-          </g>
-          {/* Tag 2 */}
-          <g transform="rotate(5 22 42)">
-            <rect x="14" y="34" width="22" height="32" rx="4" fill="#888070" stroke="#665840" strokeWidth=".8"/>
-            <rect x="14" y="34" width="22" height="32" rx="4" fill="#a8a090" opacity=".3"/>
-            <line x1="18" y1="42" x2="32" y2="42" stroke="#665840" strokeWidth=".5" opacity=".5"/>
-            <line x1="18" y1="46" x2="30" y2="46" stroke="#665840" strokeWidth=".5" opacity=".5"/>
-            <line x1="18" y1="50" x2="28" y2="50" stroke="#665840" strokeWidth=".5" opacity=".4"/>
-            <circle cx="25" cy="36" r="2" fill="none" stroke="#665840" strokeWidth=".6"/>
-          </g>
-        </svg>
+        <img src="/assets/deco/deco_dogtags.png" alt="" width={90} height={90} />
       </div>
 
       {/* Right-mid: ammo shells (SVG) */}

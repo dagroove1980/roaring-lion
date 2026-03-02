@@ -16,6 +16,8 @@ const ASSET_MAP: Record<string, string> = {
   'israel-3': '/assets/units/israel_miner.png',
   'israel-2': '/assets/units/israel_scout.png',
   'israel-S': '/assets/units/israel_spy.png',
+  'israel-B': '/assets/units/israel_bomb.png',
+  'israel-F': '/assets/units/israel_flag.png',
   // Iran
   'iran-10': '/assets/units/iran_marshal.png',
   'iran-9': '/assets/units/iran_general.png',
@@ -27,6 +29,8 @@ const ASSET_MAP: Record<string, string> = {
   'iran-3': '/assets/units/iran_miner.png',
   'iran-2': '/assets/units/iran_scout.png',
   'iran-S': '/assets/units/iran_spy.png',
+  'iran-B': '/assets/units/iran_bomb.png',
+  'iran-F': '/assets/units/iran_flag.png',
 };
 
 function getAssetPath(side: Side, rank: Rank): string | null {
