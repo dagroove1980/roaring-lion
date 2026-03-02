@@ -71,7 +71,11 @@
    RESET & BASE
    ============================================================================ */
 
-* { box-sizing: border-box; margin: 0; padding: 0; }
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
 body {
   background: var(--table-dark);
@@ -94,29 +98,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  /* Military war-table: dark leather/canvas texture via layered gradients */
-  background:
-    /* Subtle noise/grain texture */
-    url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='256' height='256' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E"),
-    /* Canvas weave pattern */
-    repeating-linear-gradient(
-      0deg,
-      transparent,
-      transparent 2px,
-      rgba(255, 255, 255, 0.008) 2px,
-      rgba(255, 255, 255, 0.008) 4px
-    ),
-    repeating-linear-gradient(
-      90deg,
-      transparent,
-      transparent 2px,
-      rgba(255, 255, 255, 0.008) 2px,
-      rgba(255, 255, 255, 0.008) 4px
-    ),
-    /* Warm spotlight from above (war-table lamp) */
-    radial-gradient(ellipse at 50% 30%, rgba(180, 150, 80, 0.06) 0%, transparent 60%),
-    /* Leather darkening at edges */
-    radial-gradient(ellipse at center, var(--table-mid) 0%, var(--table-dark) 100%);
+  background: url('/assets/table_bg.png') center/cover no-repeat, var(--table-dark);
 }
 
 /* ============================================================================
@@ -148,8 +130,13 @@ body {
 }
 
 @keyframes bgPulse {
-  0% { opacity: 0.7; }
-  100% { opacity: 1; }
+  0% {
+    opacity: 0.7;
+  }
+
+  100% {
+    opacity: 1;
+  }
 }
 
 .menu-content {
@@ -172,8 +159,15 @@ body {
 }
 
 @keyframes lionBreathe {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.05); }
+
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.05);
+  }
 }
 
 .game-title {
@@ -367,7 +361,9 @@ body {
   align-items: center;
 }
 
-.label-spacer { width: 24px; }
+.label-spacer {
+  width: 24px;
+}
 
 .col-label {
   width: 72px;
@@ -481,8 +477,15 @@ body {
 }
 
 @keyframes waterShimmer {
-  0%, 100% { opacity: 0.85; }
-  50% { opacity: 1; }
+
+  0%,
+  100% {
+    opacity: 0.85;
+  }
+
+  50% {
+    opacity: 1;
+  }
 }
 
 /* ---- Selected Cell: Golden candlelight glow ---- */
@@ -527,8 +530,17 @@ body {
 }
 
 @keyframes moveGlow {
-  0%, 100% { opacity: 0.4; transform: scale(0.9); }
-  50% { opacity: 0.7; transform: scale(1.1); }
+
+  0%,
+  100% {
+    opacity: 0.4;
+    transform: scale(0.9);
+  }
+
+  50% {
+    opacity: 0.7;
+    transform: scale(1.1);
+  }
 }
 
 /* Attack indicator: muted red border pulse */
@@ -545,8 +557,17 @@ body {
 }
 
 @keyframes attackPulse {
-  0%, 100% { opacity: 0.4; border-color: var(--attack-red); }
-  50% { opacity: 0.9; border-color: var(--attack-red-bright); }
+
+  0%,
+  100% {
+    opacity: 0.4;
+    border-color: var(--attack-red);
+  }
+
+  50% {
+    opacity: 0.9;
+    border-color: var(--attack-red-bright);
+  }
 }
 
 /* ============================================================================
@@ -1017,8 +1038,17 @@ body {
 }
 
 @keyframes dotPulse {
-  0%, 100% { opacity: 0.3; transform: scale(0.8); }
-  50% { opacity: 1; transform: scale(1.2); }
+
+  0%,
+  100% {
+    opacity: 0.3;
+    transform: scale(0.8);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
 }
 
 .turn-number {
@@ -1089,8 +1119,14 @@ body {
   font-family: 'Special Elite', serif;
 }
 
-.cap-rank { color: var(--text-primary); }
-.cap-count { color: var(--text-dim); font-size: 0.55rem; }
+.cap-rank {
+  color: var(--text-primary);
+}
+
+.cap-count {
+  color: var(--text-dim);
+  font-size: 0.55rem;
+}
 
 /* ---- Move History ---- */
 .move-history {
@@ -1127,13 +1163,35 @@ body {
   font-family: 'Special Elite', serif;
 }
 
-.history-entry.israel { background: rgba(196, 168, 104, 0.06); }
-.history-entry.iran { background: rgba(74, 90, 56, 0.08); }
+.history-entry.israel {
+  background: rgba(196, 168, 104, 0.06);
+}
 
-.hist-turn { color: var(--text-dim); min-width: 24px; font-family: monospace; }
-.hist-side { font-size: 0.8rem; }
-.hist-move { color: var(--text-primary); font-family: monospace; }
-.hist-combat { color: var(--gold); font-style: italic; margin-left: auto; font-size: 0.6rem; }
+.history-entry.iran {
+  background: rgba(74, 90, 56, 0.08);
+}
+
+.hist-turn {
+  color: var(--text-dim);
+  min-width: 24px;
+  font-family: monospace;
+}
+
+.hist-side {
+  font-size: 0.8rem;
+}
+
+.hist-move {
+  color: var(--text-primary);
+  font-family: monospace;
+}
+
+.hist-combat {
+  color: var(--gold);
+  font-style: italic;
+  margin-left: auto;
+  font-size: 0.6rem;
+}
 
 .hud-actions {
   display: flex;
@@ -1158,8 +1216,13 @@ body {
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 .battle-popup {
@@ -1183,8 +1246,15 @@ body {
 }
 
 @keyframes popIn {
-  from { transform: scale(0.85); opacity: 0; }
-  to { transform: scale(1); opacity: 1; }
+  from {
+    transform: scale(0.85);
+    opacity: 0;
+  }
+
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 
 /* "COMBAT REPORT" stamped header */
@@ -1292,8 +1362,13 @@ body {
 }
 
 @keyframes vsPulse {
-  from { transform: scale(1); }
-  to { transform: scale(1.15); }
+  from {
+    transform: scale(1);
+  }
+
+  to {
+    transform: scale(1.15);
+  }
 }
 
 .vs-resolved {
@@ -1311,8 +1386,15 @@ body {
 }
 
 @keyframes slideUp {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .outcome-win {
@@ -1341,10 +1423,12 @@ body {
   color: var(--gold);
   text-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
 }
+
 .outcome-lose .outcome-text {
   color: var(--attack-red-bright);
   text-shadow: 0 0 15px rgba(196, 48, 48, 0.3);
 }
+
 .outcome-draw .outcome-text {
   color: var(--text-muted);
 }
@@ -1590,12 +1674,19 @@ body {
    SCROLLBAR - Worn Metal
    ============================================================================ */
 
-::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: rgba(26, 22, 16, 0.5); }
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(26, 22, 16, 0.5);
+}
+
 ::-webkit-scrollbar-thumb {
   background: rgba(212, 175, 55, 0.2);
   border-radius: 3px;
 }
+
 ::-webkit-scrollbar-thumb:hover {
   background: rgba(212, 175, 55, 0.35);
 }
@@ -1605,14 +1696,32 @@ body {
    ============================================================================ */
 
 @keyframes cardDeal {
-  from { transform: translateY(-20px) rotate(-5deg); opacity: 0; }
-  to { transform: translateY(0) rotate(0); opacity: 1; }
+  from {
+    transform: translateY(-20px) rotate(-5deg);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateY(0) rotate(0);
+    opacity: 1;
+  }
 }
 
 @keyframes stampPress {
-  0% { transform: scale(1.5) rotate(-10deg); opacity: 0; }
-  50% { transform: scale(0.95) rotate(0deg); opacity: 1; }
-  100% { transform: scale(1) rotate(0deg); opacity: 1; }
+  0% {
+    transform: scale(1.5) rotate(-10deg);
+    opacity: 0;
+  }
+
+  50% {
+    transform: scale(0.95) rotate(0deg);
+    opacity: 1;
+  }
+
+  100% {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
 }
 
 /* ============================================================================
@@ -1652,13 +1761,11 @@ body {
   transform: translateX(-50%);
   width: 600px;
   height: 500px;
-  background: radial-gradient(
-    ellipse at center,
-    rgba(200, 160, 60, 0.07) 0%,
-    rgba(180, 140, 50, 0.04) 30%,
-    rgba(160, 120, 40, 0.02) 50%,
-    transparent 70%
-  );
+  background: radial-gradient(ellipse at center,
+      rgba(200, 160, 60, 0.07) 0%,
+      rgba(180, 140, 50, 0.04) 30%,
+      rgba(160, 120, 40, 0.02) 50%,
+      transparent 70%);
   pointer-events: none;
   z-index: 0;
 }
@@ -1751,14 +1858,12 @@ body {
   right: 12%;
   height: 4px;
   background:
-    repeating-linear-gradient(
-      90deg,
+    repeating-linear-gradient(90deg,
       #8a7340 0px,
       #6a5430 3px,
       #a88e4e 5px,
       #6a5430 7px,
-      #8a7340 10px
-    );
+      #8a7340 10px);
   border-radius: 2px;
   opacity: 0.12;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
@@ -1777,7 +1882,8 @@ body {
     padding: 0.5rem;
   }
 
-  .setup-panel, .game-hud {
+  .setup-panel,
+  .game-hud {
     width: 100%;
     max-width: 720px;
     max-height: none;
@@ -1790,5 +1896,7 @@ body {
   .deco-notepad,
   .deco-dogtags,
   .deco-coffee,
-  .deco-ammo { display: none; }
+  .deco-ammo {
+    display: none;
+  }
 }

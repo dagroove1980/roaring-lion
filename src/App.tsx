@@ -6,7 +6,6 @@ import GameHUD from './components/GameHUD';
 import BattlePopup from './components/BattlePopup';
 import GameOverScreen from './components/GameOverScreen';
 import RulesModal from './components/RulesModal';
-import TableDecorations from './components/TableDecorations';
 import './App.css';
 
 function App() {
@@ -16,7 +15,6 @@ function App() {
 
   return (
     <div className="app">
-      {phase !== 'menu' && <TableDecorations />}
       {phase === 'menu' && <MainMenu />}
 
       {phase === 'setup' && (
