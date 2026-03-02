@@ -1703,6 +1703,14 @@ body {
   opacity: 0.25;
 }
 
+/* --- Coffee (left-mid) --- */
+.deco-coffee {
+  left: 30px;
+  top: 30%;
+  transform: translateY(-20%) rotate(-8deg);
+  opacity: 0.35;
+}
+
 /* --- Ammo shells (right-mid) --- */
 .deco-ammo {
   right: 20px;
@@ -1781,5 +1789,6 @@ body {
   .deco-pistol,
   .deco-notepad,
   .deco-dogtags,
+  .deco-coffee,
   .deco-ammo { display: none; }
 }
